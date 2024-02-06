@@ -10,7 +10,7 @@ st.header('Welcome to OpenAI')
 st.write('OpenAI is an AI research and deployment company. Our mission is to ensure that artificial general intelligence benefits all of humanity.')
 
 # Image (replace 'url_or_path_to_image' with an actual image path or URL)
-st.image('url_or_path_to_image', caption='OpenAI Illustration')
+st.image('SRIDEVI.jpg', caption='OpenAI Illustration')
 
 # Research Section with Subsections
 st.subheader('Research')
