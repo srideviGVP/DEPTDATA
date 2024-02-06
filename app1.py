@@ -12,27 +12,27 @@ for section in sections:
 def main():
     st.title("Document Manager")
 
-    # Create a horizontal menu
+    # Create a horizontal menu with styled buttons
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        if st.button("Research"):
+        if st.button("Research", key="ResearchButton"):
             selected_section = "Research"
 
     with col2:
-        if st.button("API"):
+        if st.button("API", key="APIButton"):
             selected_section = "API"
 
     with col3:
-        if st.button("ChatGPT"):
+        if st.button("ChatGPT", key="ChatGPTButton"):
             selected_section = "ChatGPT"
 
     with col4:
-        if st.button("Safety"):
+        if st.button("Safety", key="SafetyButton"):
             selected_section = "Safety"
 
     with col5:
-        if st.button("Company"):
+        if st.button("Company", key="CompanyButton"):
             selected_section = "Company"
 
     if "selected_section" not in locals():
@@ -40,7 +40,7 @@ def main():
 
     st.header(f"{selected_section} Section")
 
-    # Create a submenu for each section
+    # Create a submenu for each section with sample text
     submenu = st.radio(f"{selected_section} Menu", ["Upload Document", "View Documents"])
 
     if submenu == "Upload Document":
@@ -52,6 +52,8 @@ def main():
             with open(os.path.join(selected_section, uploaded_file.name), "wb") as f:
                 f.write(uploaded_file.getvalue())
             st.success("Document successfully uploaded!")
+
+        st.write("You can upload documents related to this section.")
 
     elif submenu == "View Documents":
         st.subheader(f"List of Documents in {selected_section}")
