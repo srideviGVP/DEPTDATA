@@ -1,36 +1,45 @@
 import streamlit as st
 import os
 
-# Create a folder to store the uploaded documents
-if not os.path.exists("uploads"):
-    os.makedirs("uploads")
+# Create a folder to store the uploaded documents for each section
+sections = ["Research", "API", "ChatGPT", "Safety", "Company"]
+
+for section in sections:
+    if not os.path.exists(section):
+        os.makedirs(section)
 
 # Define the Streamlit app
 def main():
-    st.title("Department Document Manager")
+    st.title("Document Manager")
 
-    # Create a menu at the top of the page
-    menu = st.radio("Menu", ["Upload Document", "View Documents"])
+    # Create a top navigation bar
+    selected_section = st.selectbox("Select Section", sections)
 
-    if menu == "Upload Document":
-        st.header("Upload a Document")
-        uploaded_file = st.file_uploader("Choose a document to upload", type=["pdf", "docx", "txt"])
+    if selected_section:
+        st.header(f"{selected_section} Section")
 
-        if uploaded_file is not None:
-            # Save the uploaded document
-            with open(os.path.join("uploads", uploaded_file.name), "wb") as f:
-                f.write(uploaded_file.getvalue())
-            st.success("Document successfully uploaded!")
+        # Create a submenu for each section
+        submenu = st.radio(f"{selected_section} Menu", ["Upload Document", "View Documents"])
 
-    elif menu == "View Documents":
-        st.header("List of Documents")
-        files = os.listdir("uploads")
-        if not files:
-            st.info("No documents uploaded yet.")
-        else:
-            st.write("List of uploaded documents:")
-            for file in files:
-                st.write(file)
+        if submenu == "Upload Document":
+            st.subheader("Upload a Document")
+            uploaded_file = st.file_uploader(f"Choose a document to upload in {selected_section}", type=["pdf", "docx", "txt"])
+
+            if uploaded_file is not None:
+                # Save the uploaded document to the specific section's folder
+                with open(os.path.join(selected_section, uploaded_file.name), "wb") as f:
+                    f.write(uploaded_file.getvalue())
+                st.success("Document successfully uploaded!")
+
+        elif submenu == "View Documents":
+            st.subheader(f"List of Documents in {selected_section}")
+            files = os.listdir(selected_section)
+            if not files:
+                st.info(f"No documents uploaded yet in {selected_section}.")
+            else:
+                st.write(f"List of uploaded documents in {selected_section}:")
+                for file in files:
+                    st.write(file)
 
 if __name__ == "__main__":
     main()
