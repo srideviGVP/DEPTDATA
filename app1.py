@@ -1,4 +1,13 @@
 import streamlit as st
+import pandas as pd
+import pdfplumber
+import io
+
+# Helper function to display PDF
+def display_pdf(file):
+    with pdfplumber.open(file) as pdf:
+        for page in pdf.pages:
+            st.write(page.extract_text())
 
 # Title of the app
 st.title('OpenAI Simulation')
@@ -9,29 +18,35 @@ st.header('Welcome to OpenAI')
 # Introduction or Main Text
 st.write('OpenAI is an AI research and deployment company. Our mission is to ensure that artificial general intelligence benefits all of humanity.')
 
-# Image (replace 'url_or_path_to_image' with an actual image path or URL)
+# Image
 st.image('SRIDEVI.jpg', caption='OpenAI Illustration')
 
-# Research Section with Subsections
+# Research Section with File Uploader
 st.subheader('Research')
-with st.expander("Machine Learning Research"):
-    st.write("Details about machine learning research.")
-with st.expander("AI Policy and Safety"):
-    st.write("Information on AI policy and safety research.")
+uploaded_file_research = st.file_uploader("Upload Research Documents", type=['txt', 'pdf'], key='research')
+if uploaded_file_research:
+    if uploaded_file_research.type == "application/pdf":
+        display_pdf(uploaded_file_research)
+    else:
+        st.text_area("Text Contents", uploaded_file_research.read().decode("utf-8"), height=300)
 
-# API Section with Subsections
+# API Section with File Uploader
 st.subheader('API')
-with st.expander("API Features"):
-    st.write("Explore the various features of our API.")
-with st.expander("API Documentation"):
-    st.write("Access comprehensive documentation for our API.")
+uploaded_file_api = st.file_uploader("Upload API Documents", type=['txt', 'pdf'], key='api')
+if uploaded_file_api:
+    if uploaded_file_api.type == "application/pdf":
+        display_pdf(uploaded_file_api)
+    else:
+        st.text_area("Text Contents", uploaded_file_api.read().decode("utf-8"), height=300)
 
-# ChatGPT Section with Subsections
+# ChatGPT Section with File Uploader
 st.subheader('ChatGPT')
-with st.expander("ChatGPT Overview"):
-    st.write("An overview of ChatGPT and its capabilities.")
-with st.expander("ChatGPT Applications"):
-    st.write("Examples of how ChatGPT can be used in different scenarios.")
+uploaded_file_chatgpt = st.file_uploader("Upload ChatGPT Documents", type=['txt', 'pdf'], key='chatgpt')
+if uploaded_file_chatgpt:
+    if uploaded_file_chatgpt.type == "application/pdf":
+        display_pdf(uploaded_file_chatgpt)
+    else:
+        st.text_area("Text Contents", uploaded_file_chatgpt.read().decode("utf-8"), height=300)
 
 # Contact Section
 st.subheader('Contact')
